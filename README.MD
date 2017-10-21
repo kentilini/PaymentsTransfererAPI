@@ -9,3 +9,4 @@ mvn miredot:restdoc
 ToDo: add more detailed project INFO
 ToDo: add autopublishing REST API documentation
 ToDo: add TravisCI Profile
+ToDo: add select pagination

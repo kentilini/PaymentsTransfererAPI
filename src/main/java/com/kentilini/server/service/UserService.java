@@ -53,10 +53,11 @@ public class UserService {
         EntityManager em = entityManagerService.createEntityManager();
         try {
             em.getTransaction().begin();
-            if (user.getId() == null)
+            if (user.getId() == null) {
                 em.persist(user);
-            else
+            } else {
                 em.merge(user);
+            }
             em.getTransaction().commit();
             return user;
         } finally {

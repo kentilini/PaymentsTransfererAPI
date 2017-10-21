@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 import com.fasterxml.jackson.annotation.JsonSetter;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -25,13 +27,16 @@ public class User {
     @XmlElement(name = "userId", nillable = true)
     private BigInteger id;
 
-    @Column(name = "NAME", unique = true, nullable = false, length = 50)
+    @Column(name = "NAME", nullable = false, length = 50)
     @XmlElement(name = "name", nillable = false)
     private String name;
 
     @Column(name = "EMAIL", unique = true, nullable = false, length = 50)
     @XmlElement(name = "email", nillable = false)
     private String email;
+
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Account> accounts = new ArrayList<Account>();
 
 
     public User() {
@@ -59,13 +64,16 @@ public class User {
         this.name = name;
     }
 
-
-
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void addAccount(Account account) {
+        accounts.add(account);
+        account.setOwner(this);
     }
 }

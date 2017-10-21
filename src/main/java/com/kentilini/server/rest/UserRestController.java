@@ -12,7 +12,7 @@ import java.util.List;
 @Path("/user")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class UserController {
+public class UserRestController {
 
     @Inject
     UserService userService;
@@ -30,8 +30,8 @@ public class UserController {
     }
 
     @PUT
-    @Path("addUser")
-    public User addUser(User user) {
+    @Path("addOrUpdateUser")
+    public User addOrUpdateUser(User user) {
         return userService.saveOrUpdate(user);
     }
 

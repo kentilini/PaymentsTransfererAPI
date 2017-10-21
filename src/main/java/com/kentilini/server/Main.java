@@ -26,7 +26,7 @@ public class Main {
 
     private Server configureServer() {
         ResourceConfig resourceConfig = new ResourceConfig();
-        resourceConfig.packages("com.kentilini.server");
+        resourceConfig.packages("com.kentilini.server.rest");
         resourceConfig.register(JacksonFeature.class);
         resourceConfig.register(new Binder());
 
