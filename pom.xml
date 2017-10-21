@@ -116,7 +116,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edomingues.restserver.Main</mainClass>
+                            <mainClass>com.kentilini.server.Main</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

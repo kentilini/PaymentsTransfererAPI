@@ -1,6 +1,6 @@
 package com.kentilini.server.rest;
 
-import com.kentilini.server.entity.UserEntity;
+import com.kentilini.server.entity.User;
 import com.kentilini.server.service.UserService;
 
 import javax.inject.Inject;
@@ -25,14 +25,14 @@ public class UserController {
 
     @GET
     @Path("{id}")
-    public UserEntity getUserById(@PathParam("id") BigInteger id) {
+    public User getUserById(@PathParam("id") BigInteger id) {
         return userService.getUserById(id);
     }
 
     @PUT
     @Path("addUser")
-    public UserEntity addUser(UserEntity user) {
-        return null;
+    public User addUser(User user) {
+        return userService.saveOrUpdate(user);
     }
 
 }

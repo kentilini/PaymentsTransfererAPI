@@ -1,7 +1,7 @@
 package com.kentilini.server.service;
 
 import com.kentilini.server.entity.EntityManagerService;
-import com.kentilini.server.entity.UserEntity;
+import com.kentilini.server.entity.User;
 import com.kentilini.server.utils.VerifyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,13 +20,13 @@ public class UserService {
     @Inject
     private EntityManagerService entityManagerService;
 
-    public UserEntity getUserById(BigInteger userId) {
+    public User getUserById(BigInteger userId) {
         EntityManager em = entityManagerService.createEntityManager();
         LOG.info("Try to find users by id: " + userId);
         try {
-            TypedQuery<UserEntity> query = em.createNamedQuery("User.getById", UserEntity.class);
+            TypedQuery<User> query = em.createNamedQuery("User.getById", User.class);
             query.setParameter("id", userId);
-            List<UserEntity> resultList = query.getResultList();
+            List<User> resultList = query.getResultList();
             LOG.info("Search result size: " + resultList.size());
             VerifyResult.isOneResult(resultList);
 
@@ -49,7 +49,7 @@ public class UserService {
         }
     }
 
-    public void saveOrUpdate(UserEntity user) {
+    public User saveOrUpdate(User user) {
         EntityManager em = entityManagerService.createEntityManager();
         try {
             em.getTransaction().begin();
@@ -58,6 +58,7 @@ public class UserService {
             else
                 em.merge(user);
             em.getTransaction().commit();
+            return user;
         } finally {
             em.close();
         }
