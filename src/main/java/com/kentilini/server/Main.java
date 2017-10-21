@@ -29,8 +29,10 @@ public class Main {
         resourceConfig.packages("com.kentilini.server");
         resourceConfig.register(JacksonFeature.class);
         resourceConfig.register(new Binder());
+
         ServletContainer servletContainer = new ServletContainer(resourceConfig);
         ServletHolder sh = new ServletHolder(servletContainer);
+
         Server server = new Server(serverPort);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.setContextPath("/");

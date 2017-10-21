@@ -1,5 +1,9 @@
 package com.kentilini.server.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+import com.fasterxml.jackson.annotation.JsonSetter;
+
 import java.math.BigInteger;
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlElement;
