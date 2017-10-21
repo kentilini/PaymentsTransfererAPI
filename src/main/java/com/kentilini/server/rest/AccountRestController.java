@@ -33,6 +33,12 @@ public class AccountRestController {
         return accountService.createNewAccountForUser(userId);
     }
 
+    @PUT
+    @Path("replenish/{accountId}/{amount}")
+    public Account replenishAccount(@PathParam("accountId") Long id, @PathParam("amount") Double amount) {
+        return accountService.replenish(id, amount);
+    }
+
     @POST
     public List<Account> getUserAccounts(User user) {
         return accountService.getUserAccounts(user);

@@ -64,6 +64,22 @@ public class AccountService {
         return saveOrUpdate(newAcc);
     }
 
+    public Account replenish(Long id, Double amount){
+        Account account = getAccountById(id);
+        AccountPaymentsChecker object = new AccountPaymentsChecker(account, null, amount).verifyAmount();
+        EntityManager em = entityManagerService.createEntityManager();
+        lockManager.executeLocked(object, () -> {
+            try {
+                account.setBalance(account.getBalance() + amount);
+                em.getTransaction().begin();
+                    em.merge(account);
+                em.getTransaction().commit();
+            } finally {
+                em.close();
+            }
+        });
+        return getAccountById(id);
+    }
 
     public Account saveOrUpdate(Account account) {
         EntityManager em = entityManagerService.createEntityManager();
@@ -91,14 +107,16 @@ public class AccountService {
     }
 
     public void transferMoney(final Account from, final Account to, Double amount) {
-        AccountPaymentsChecker object = new AccountPaymentsChecker(from, to, amount).verifyAccountsStatus().verifyEnoughMoney().verifyPositiveBalance().verifySameAccount();
+        AccountPaymentsChecker object = new AccountPaymentsChecker(from, to, amount).verifyAccountsStatus().verifyEnoughMoney()
+                .verifyPositiveBalance().verifySameAccount().verifyAmount();
 
         EntityManager em = entityManagerService.createEntityManager();
         lockManager.executeLocked(object, () -> {
             //DoubleCheck
             Account fromA = getAccountById(from.getId());
             Account toA = getAccountById(to.getId());
-            new AccountPaymentsChecker(fromA, toA, amount).verifyAccountsStatus().verifyEnoughMoney().verifyPositiveBalance().verifySameAccount();
+            new AccountPaymentsChecker(fromA, toA, amount).verifyAccountsStatus().verifyEnoughMoney().verifyPositiveBalance()
+                    .verifySameAccount().verifyAmount();
 
             fromA.setBalance(fromA.getBalance() - amount);
             toA.setBalance(toA.getBalance() + amount);

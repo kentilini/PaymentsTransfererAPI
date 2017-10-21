@@ -8,12 +8,12 @@ import java.util.Objects;
 public class AccountPaymentsChecker {
     private Account from;
     private Account to;
-    private Double sum;
+    private Double amount;
 
-    public AccountPaymentsChecker(Account from, Account to, Double sum) {
+    public AccountPaymentsChecker(Account from, Account to, Double amount) {
         this.from = from;
         this.to = to;
-        this.sum = sum;
+        this.amount = amount;
     }
 
     public AccountPaymentsChecker verifyAccountsStatus(){
@@ -31,15 +31,22 @@ public class AccountPaymentsChecker {
     }
 
     public AccountPaymentsChecker verifyEnoughMoney(){
-        if(from.getBalance() < sum){
+        if(from.getBalance() < amount){
             throw new MoneyTransferException("Account has not enough money");
         }
         return this;
     }
 
     public AccountPaymentsChecker verifySameAccount(){
-        if(!Objects.equals(from.getId(), to.getId())){
+        if(Objects.equals(from.getId(), to.getId())){
             throw new MoneyTransferException("Accounts can't be the same");
+        }
+        return this;
+    }
+
+    public AccountPaymentsChecker verifyAmount(){
+        if(amount < 0){
+            throw new MoneyTransferException("Amount should be a positive value");
         }
         return this;
     }
