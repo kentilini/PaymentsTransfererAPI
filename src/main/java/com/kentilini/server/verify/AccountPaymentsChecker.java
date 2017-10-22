@@ -3,6 +3,7 @@ package com.kentilini.server.verify;
 import com.kentilini.server.entity.Account;
 import com.kentilini.server.exception.MoneyTransferException;
 
+import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
 public class AccountPaymentsChecker {
@@ -10,7 +11,7 @@ public class AccountPaymentsChecker {
     private Account to;
     private Double amount;
 
-    public AccountPaymentsChecker(Account from, Account to, Double amount) {
+    public AccountPaymentsChecker(@NotNull Account from, Account to, Double amount) {
         this.from = from;
         this.to = to;
         this.amount = amount;
@@ -87,13 +88,26 @@ public class AccountPaymentsChecker {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AccountPaymentsChecker that = (AccountPaymentsChecker) o;
-        if(that.to == null){
-            return Objects.equals(that.from, this.from) || Objects.equals(that.from, this.to);
-        }else if(this.to == null){
-            return Objects.equals(this.from, that.from) || Objects.equals(this.from, that.to);
+
+        //from can't be null
+        if(from == null || that.from == null) {
+            return false;
+        }
+        Long fId = from.getId();
+        Long that_fId = that.from.getId();
+
+        //set ToId
+        Long tId = null;
+        if(this.to != null){
+            tId = to.getId();
         }
 
-        return Objects.equals(from, that.from) || Objects.equals(to, that.to) || Objects.equals(from, that.to) || Objects.equals(to, that.from);
+        Long that_tId = null;
+        if(that.to != null ){
+            that_tId = that.to.getId();
+        }
+
+        return Objects.equals(fId, that_fId) || Objects.equals(tId, that_tId) || Objects.equals(fId, that_tId) || Objects.equals(tId, that_fId);
     }
 
     @Override
