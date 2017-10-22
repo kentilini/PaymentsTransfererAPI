@@ -15,6 +15,7 @@ import java.util.List;
 
 @Singleton
 public class UserService {
+    //ToDo: provide user fields verification
     private final Logger LOG = LoggerFactory.getLogger(UserService.class);
 
     @Inject
