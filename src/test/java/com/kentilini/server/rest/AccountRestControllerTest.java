@@ -22,10 +22,10 @@ import static org.testng.Assert.*;
 @RunWith(MockitoJUnitRunner.class)
 public class AccountRestControllerTest {
     @InjectMocks
-    AccountRestController restController;
+    private AccountRestController restController;
 
     @Mock
-    AccountService accountService;
+    private AccountService accountService;
 
     @Mock
     private Account account;
@@ -112,7 +112,7 @@ public class AccountRestControllerTest {
 
         restController.provideTransaction(1L, 1L, 0d);
 
-        verify(accountService, times(1)).transferMoney(1l, 1l, 0d);
+        verify(accountService, times(1)).transferMoney(1L, 1L, 0d);
     }
 
 }
