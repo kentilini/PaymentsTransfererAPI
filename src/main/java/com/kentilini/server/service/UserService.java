@@ -2,6 +2,8 @@ package com.kentilini.server.service;
 
 import com.kentilini.server.entity.EntityManagerService;
 import com.kentilini.server.entity.User;
+import com.kentilini.server.exception.NoResultException;
+import com.kentilini.server.exception.NonUniqueResultException;
 import com.kentilini.server.utils.VerifyResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +23,14 @@ public class UserService {
     @Inject
     private EntityManagerService entityManagerService;
 
+    /**
+     *
+     * @summary Finds user account stored at DB by Id
+     * @param userId id of user account to search
+     * @return found User value
+     * @throws NonUniqueResultException if search results will be more than 1
+     * @throws NoResultException if user is not stored at DB
+     */
     public User getUserById(BigInteger userId) {
         EntityManager em = entityManagerService.createEntityManager();
         LOG.info("Try to find users by id: " + userId);
@@ -37,6 +47,13 @@ public class UserService {
         }
     }
 
+    /**
+     *
+     * @summary Returns the array of user Ids.
+     * @param maxCount max number of result should be returned
+     * @param pageNumber number of page from which result should be returned
+     * @return List of User Ids
+     */
     public List<BigInteger> getAllUsersIds(int maxCount, int pageNumber) {
         EntityManager em = entityManagerService.createEntityManager();
         try {
@@ -50,6 +67,12 @@ public class UserService {
         }
     }
 
+    /**
+     *
+     * @summary Create or Updates User Entity value and stores it into DB. This method is transactional.
+     * @param user new value of user that will be updated or added into DB
+     * @return updated\added user value
+     */
     public User saveOrUpdate(User user) {
         EntityManager em = entityManagerService.createEntityManager();
         try {

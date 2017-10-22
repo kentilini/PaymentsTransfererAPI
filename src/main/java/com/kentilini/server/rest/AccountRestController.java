@@ -3,6 +3,8 @@ package com.kentilini.server.rest;
 import com.kentilini.server.entity.Account;
 import com.kentilini.server.entity.User;
 import com.kentilini.server.exception.MoneyTransferException;
+import com.kentilini.server.exception.NoResultException;
+import com.kentilini.server.exception.NonUniqueResultException;
 import com.kentilini.server.service.AccountService;
 import com.kentilini.server.service.UserService;
 import org.slf4j.LoggerFactory;
@@ -52,6 +54,42 @@ public class AccountRestController {
 
     /**
      *
+     * @summary blocks payments account
+     * @param id id of account that should be blocked
+     * @return updated account value
+     */
+    @PUT
+    @Path("block/{id}")
+    public Account blockAccount(@PathParam("id") Long id){
+        return accountService.changeAccountStatus(id, Account.AccountStatus.BLOCKED);
+    }
+
+    /**
+     *
+     * @summary archive payments account
+     * @param id id of account that should be archived
+     * @return updated account value
+     */
+    @PUT
+    @Path("archive/{id}")
+    public Account archiveAccount(@PathParam("id") Long id){
+        return accountService.changeAccountStatus(id, Account.AccountStatus.ARCHIVED);
+    }
+
+    /**
+     *
+     * @summary open closed or archived payments account
+     * @param id id of account that should be opened
+     * @return updated account value
+     */
+    @PUT
+    @Path("renew/{id}")
+    public Account renewAccount(@PathParam("id") Long id){
+        return accountService.changeAccountStatus(id, Account.AccountStatus.OPEN);
+    }
+
+    /**
+     *
      * @summary This method represents payment transfer form the external(unknown) checked transaction.
      * There for we could only add money to this account.
      * @param id primary key of the Account.
@@ -88,6 +126,9 @@ public class AccountRestController {
      * @throws MoneyTransferException if account balance contains not enough money for execution of transaction
      * @throws MoneyTransferException if tou trying to transfer money form/to the same account
      * @throws MoneyTransferException if the amount price have zero or negative value
+     * @throws MoneyTransferException if the from account doesn't have positive balance
+     * @throws NonUniqueResultException if found several account results by fromId or toId
+     * @throws NoResultException if fromId or toId account doesn't exist
      */
     @POST
     @Path("provideTransaction")

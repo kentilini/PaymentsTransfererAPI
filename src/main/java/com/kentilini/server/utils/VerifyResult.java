@@ -5,6 +5,9 @@ import com.kentilini.server.exception.NonUniqueResultException;
 
 import java.util.List;
 
+/**
+ * Example of Static Util Verification Class
+ */
 public class VerifyResult {
         public static void isOneResult(List input){
         if(input.size() > 1){

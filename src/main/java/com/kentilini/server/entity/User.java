@@ -19,7 +19,6 @@ import javax.xml.bind.annotation.XmlRootElement;
         @NamedQuery(name = "User.getById", query = "select user from User user where user.id = :id")})
 public class User {
     //ToDo: add one to many meta user info
-    //ToDo: add user payments info
 
     @Id
     @Column(name = "ID", unique = true, nullable = false)
