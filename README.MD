@@ -7,6 +7,15 @@ mvn miredot:restdoc
 ```
 
 ToDo: add more detailed project INFO
+
 ToDo: add autopublishing REST API documentation
+
 ToDo: add TravisCI Profile
+
 ToDo: add select pagination
+
+ToDo: implement Full Service Test Example
+
+ToDo: Mockito whenNew annotation
+
+!ToDo: implement integration tests
